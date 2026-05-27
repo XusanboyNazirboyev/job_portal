@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h4>Applications</h4>
+  <a href="/companies/panel" class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+
+<div class="row">
+  {{#each applications}}
+  <div class="col-md-6 mb-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5>{{user.full_name}}</h5>
+        <p class="text-muted">{{user.email}}</p>
+        <a href="/{{resume}}" target="_blank" class="btn btn-sm btn-outline-primary mb-2">View Resume</a>
+        <form action="/applications/{{id}}/status" method="POST">
+          <select name="status" class="form-select mb-2">
+            <option value="pending">Pending</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <button type="submit" class="btn btn-sm btn-primary w-100">Update Status</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

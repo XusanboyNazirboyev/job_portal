@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h4>{{company.name}} — Panel</h4>
+  <a href="/companies/create" class="btn btn-primary">+ New Vacancy</a>
+</div>
+
+<div class="row">
+  {{#each company.Vacancies}}
+  <div class="col-md-6 mb-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5>{{title}}</h5>
+        <p class="text-muted">{{location}}</p>
+        <p class="fw-bold">${{salary}}</p>
+        <div class="d-flex gap-2">
+          <a href="/companies/{{id}}/applications" class="btn btn-sm btn-outline-primary">Applications</a>
+          <a href="/companies/{{id}}/edit" class="btn btn-sm btn-outline-warning">Edit</a>
+          <form action="/companies/{{id}}?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

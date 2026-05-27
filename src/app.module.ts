@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { SequelizeModule } from "@nestjs/sequelize"
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from "@nestjs/config"
+import { ConfigModule, ConfigService } from "@nestjs/config"
 import { ApplicationsModule } from './applications/applications.module';
 import { UsersModule } from './users/users.module';
 import { CompaniesModule } from './companies/companies.module';
@@ -12,6 +12,12 @@ import { Company } from './companies/models/company.model';
 import { Vacancy } from './vacancies/models/vacancy.model';
 import { Application } from './applications/models/application.model';
 import { Category } from './categories/models/category.model';
+import { AdminModule } from './admin/admin.module';
+import { RoleMiddleware } from './common/middleware/role.middleware';
+import { JwtService } from '@nestjs/jwt';
+import { TelegramModule } from './telegram/telegram.module';
+import { MailService } from './mail/mail.service';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -40,6 +46,14 @@ import { Category } from './categories/models/category.model';
     CompaniesModule,
     VacanciesModule,
     CategoriesModule,
+    AdminModule,
+    TelegramModule,
+    MailModule,
   ],
+  providers:[JwtService,ConfigService, MailService]
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RoleMiddleware).forRoutes('*');
+  }
+}

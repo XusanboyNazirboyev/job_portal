@@ -1,0 +1,19 @@
+<h4 class="mb-4">My Applications</h4>
+<div class="row">
+  {{#each applications}}
+  <div class="col-md-6 mb-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5>{{vacancy.title}}</h5>
+        <p class="text-muted">{{vacancy.location}}</p>
+        <span class="badge 
+          {{#if (eq status 'accepted')}}bg-success
+          {{else if (eq status 'rejected')}}bg-danger
+          {{else}}bg-warning{{/if}}">
+          {{status}}
+        </span>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

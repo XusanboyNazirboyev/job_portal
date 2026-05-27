@@ -6,19 +6,24 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { JwtService } from '@nestjs/jwt'
+import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dtos/register.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dtos/login.dto';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
+import { Company } from '@/companies/models/company.model';
+import { MailService } from '@/mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User) private userModel: typeof User,
+    @InjectModel(Company) private companyModel: typeof Company,
+
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly mailService: MailService,
   ) {}
 
   async register(dto: RegisterDto, res: Response) {
@@ -37,19 +42,26 @@ export class AuthService {
       password: hashedPass,
     });
 
+    if (dto.role === 'company') {
+      await this.companyModel.create({
+        name: dto.full_name,
+        owner_id: user.getDataValue('id'),
+      });
+    }
+
     const payload = { id: user.id, role: user.role };
     const accessToken = await this.generateAccessToken(payload);
     const refreshToken = await this.generateRefreshToken(payload);
 
     this.setTokenCookies(res, accessToken, refreshToken);
-
+    await this.mailService.sendWelcome(dto.email, dto.full_name);
     // return {
     //   success: true,
     //   data: user,
     // };
   }
 
-  async login(dto: LoginDto, res:Response) {
+  async login(dto: LoginDto, res: Response) {
     const existing = await this.userModel.findOne({
       where: { email: dto.email },
       attributes: ['id', 'email', 'password', 'role'],
@@ -59,22 +71,25 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
-    const isSame = await this.comparePass(dto.password, existing.getDataValue('password'));
+    const isSame = await this.comparePass(
+      dto.password,
+      existing.getDataValue('password'),
+    );
 
     if (!isSame) {
       throw new UnauthorizedException('Invalid password');
     }
+    const payload = {
+      id: existing.getDataValue('id'),
+      role: existing.getDataValue('role'),
+    };
+    // const payload = { id: existing.id, role: existing.role };
+    const accessToken = await this.generateAccessToken(payload);
+    const refreshToken = await this.generateRefreshToken(payload);
 
-        const payload = { id: existing.id, role: existing.role };
-        const accessToken = await this.generateAccessToken(payload);
-        const refreshToken = await this.generateRefreshToken(payload);
+    this.setTokenCookies(res, accessToken, refreshToken);
 
-        this.setTokenCookies(res, accessToken, refreshToken);
-
-    // return {
-    //   success: true,
-    //   data: existing,
-    // };
+    return existing.getDataValue('role');
   }
 
   async refresh(req: Request, res: Response) {
@@ -121,7 +136,7 @@ export class AuthService {
     });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
   }
 

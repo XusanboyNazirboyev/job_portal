@@ -1,0 +1,38 @@
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card shadow">
+      <div class="card-body p-4">
+        <h4 class="mb-4">Create Vacancy</h4>
+
+        {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+
+        <form action="/companies" method="POST">
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Salary</label>
+            <input type="number" name="salary" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Category ID</label>
+            <input type="number" name="category_id" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Create</button>
+          <a href="/companies/panel" class="btn btn-outline-secondary w-100 mt-2">Back</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h4>All Companies</h4>
+  <a href="/admin/panel" class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Website</th>
+      <th>Owner ID</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each companies}}
+    <tr>
+      <td>{{id}}</td>
+      <td>{{name}}</td>
+      <td>{{website}}</td>
+      <td>{{owner_id}}</td>
+      <td>
+        <form action="/admin/companies/{{id}}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

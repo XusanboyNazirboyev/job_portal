@@ -9,16 +9,12 @@ export class VacanciesController {
   @Get()
   async index(@Res() res: Response) {
     const vacancies = await this.service.getAll();
-    return res.render('vacancies/index', { vacancies });
+    return res.render('vacancies/index', { vacancies, showNavbar: true });
   }
 
   @Get(':id')
-  async detail(@Param('id', ParseIntPipe) id: string, @Res() res: Response) {
-    try {
-      const vacancy = await this.service.getOne(id);
-      return res.render('vacancies/detail', { vacancy });
-    } catch (error: any) {
-      return res.redirect('/vacancies');
-    }
+  async detail(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
+    const vacancy = await this.service.getOne(String(id));
+    return res.render('vacancies/detail', { vacancy, showNavbar: true });
   }
 }

@@ -1,0 +1,38 @@
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card shadow">
+      <div class="card-body p-4">
+        <h4 class="mb-4">Edit Vacancy</h4>
+
+        {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+
+        <form action="/companies/{{vacancy.id}}?_method=PUT" method="POST">
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" value="{{vacancy.title}}" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4">{{vacancy.description}}</textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Salary</label>
+            <input type="number" name="salary" class="form-control" value="{{vacancy.salary}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" class="form-control" value="{{vacancy.location}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Category ID</label>
+            <input type="number" name="category_id" class="form-control" value="{{vacancy.category_id}}" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Update</button>
+          <a href="/companies/panel" class="btn btn-outline-secondary w-100 mt-2">Back</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
