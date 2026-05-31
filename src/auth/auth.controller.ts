@@ -27,11 +27,10 @@ export class AuthController {
 
   @Get('login')
   loginPage(@Req() req: any, @Res() res: Response) {
-    const token = req.cookies?.['accessToken'];
-    if (token) {
-      const role = req.user?.role;
-      if (role === 'admin') return res.redirect('/admin/panel');
-      if (role === 'company') return res.redirect('/companies/panel');
+    const user = req.user;
+    if (user) {
+      if (user.role === 'admin') return res.redirect('/admin/panel');
+      if (user.role === 'company') return res.redirect('/companies/panel');
       return res.redirect('/vacancies');
     }
     return res.render('auth/login', { error: req.query.error });
@@ -46,9 +45,52 @@ export class AuthController {
       if (role === 'admin') return res.redirect('/admin/panel');
       return res.redirect('/vacancies');
     } catch (error: any) {
+      const msg = error.response?.message;
       return res.render('auth/login', {
-        error: error.response?.message?.[0] || error.message,
+        error: Array.isArray(msg) ? msg.join(', ') : msg || error.message,
       });
+    }
+  }
+
+  @Get('forgot-password')
+  forgotPage(@Req() req: any, @Res() res: Response) {
+    return res.render('auth/forgot', {
+      error: req.query.error,
+      success: req.query.message,
+    });
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string, @Res() res: Response) {
+    try {
+      await this.service.forgotPassword(email);
+      return res.redirect('/auth/forgot-password?message=Reset email sent');
+    } catch (error: any) {
+      return res.redirect(`/auth/forgot-password?error=${error.message}`);
+    }
+  }
+
+  @Get('reset-password')
+  resetPage(@Req() req: any, @Res() res: Response) {
+    return res.render('auth/reset', {
+      token: req.query.token,
+      error: req.query.error,
+    });
+  }
+
+  @Post('reset-password')
+  async resetPassword(
+    @Body('token') token: string,
+    @Body('password') password: string,
+    @Res() res: Response,
+  ) {
+    try {
+      await this.service.resetPassword(token, password);
+      return res.redirect('/auth/login?message=Password reset successfully');
+    } catch (error: any) {
+      return res.redirect(
+        `/auth/reset-password?token=${token}&error=${error.message}`,
+      );
     }
   }
   @Get('logout')

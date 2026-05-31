@@ -39,13 +39,29 @@ export class AdminService {
 
   async deleteUser(id: string) {
     const existing = await this.userModel.findByPk(id);
-    if (!existing) {
-      throw new NotFoundException('User not found');
+    if (!existing) throw new NotFoundException('User not found');
+
+    // user ning company si bo'lsa avval uni o'chir
+    const company = await this.companyModel.findOne({
+      where: { owner_id: id },
+    });
+    if (company) {
+      const vacancies = await this.vacancyModel.findAll({
+        where: { company_id: company.id },
+      });
+      for (const vacancy of vacancies) {
+        await this.applicationModel.destroy({
+          where: { vacancy_id: vacancy.id },
+        });
+      }
+      await this.vacancyModel.destroy({ where: { company_id: company.id } });
+      await company.destroy();
     }
+    await this.applicationModel.destroy({ where: { user_id: id } });
+
     await existing.destroy();
     return { success: true };
   }
-
   async getCompanies() {
     return this.companyModel.findAll();
   }
@@ -57,15 +73,15 @@ export class AdminService {
       throw new NotFoundException('Company not found');
     }
 
-     const vacancies = await this.vacancyModel.findAll({
-       where: { company_id: id },
-     });
-     for (const vacancy of vacancies) {
-       await this.applicationModel.destroy({
-         where: { vacancy_id: vacancy.id },
-       });
-     }
-      await this.vacancyModel.destroy({ where: { company_id: id } });
+    const vacancies = await this.vacancyModel.findAll({
+      where: { company_id: id },
+    });
+    for (const vacancy of vacancies) {
+      await this.applicationModel.destroy({
+        where: { vacancy_id: vacancy.id },
+      });
+    }
+    await this.vacancyModel.destroy({ where: { company_id: id } });
 
     await existing.destroy();
     return { success: true };
@@ -82,7 +98,7 @@ export class AdminService {
   async deleteCategory(id: string) {
     const existing = await this.categoryModel.findByPk(id);
     if (!existing) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Category not found');
     }
 
     const vacancies = await this.vacancyModel.findAll({
@@ -93,7 +109,7 @@ export class AdminService {
         where: { vacancy_id: vacancy.id },
       });
     }
-     await this.vacancyModel.destroy({ where: { category_id: id } });
+    await this.vacancyModel.destroy({ where: { category_id: id } });
 
     await existing.destroy();
     return { success: true };

@@ -1,0 +1,22 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5">
+    <div class="card shadow">
+      <div class="card-body p-4">
+        <h4 class="mb-4 text-center">New password</h4>
+
+        {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+
+        <form action="/auth/reset-password" method="POST">
+          <input type="hidden" name="token" value="{{token}}">
+          <div class="mb-3">
+            <label class="form-label">New password</label>
+            <input type="password" name="password" class="form-control" minlength="6" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

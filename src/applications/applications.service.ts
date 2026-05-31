@@ -9,7 +9,6 @@ import { CreateApplicationDto } from './dtos/create-application.dto';
 import { Vacancy } from '@/vacancies/models/vacancy.model';
 import { User } from '@/users/models/user.model';
 import { UpdateStatusDto } from './dtos/update-status.dto';
-import { Telegraf } from 'telegraf';
 import { TelegramService } from '@/telegram/telegram.service';
 import { MailService } from '@/mail/mail.service';
 

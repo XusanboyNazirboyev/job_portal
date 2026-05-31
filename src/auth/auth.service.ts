@@ -121,9 +121,39 @@ export class AuthService {
     return res.json({ success: true, message: 'Token refreshed' });
   }
 
-  async forgotPassword() {}
+  async forgotPassword(email: string) {
+    const user = await this.userModel.findOne({ where: { email } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const token = await this.jwtService.signAsync(
+      { id: user.getDataValue('id') },
+      {
+        secret: this.configService.get('RESET_PASSWORD_SECRET'),
+        expiresIn: this.configService.get('RESET_PASSWORD_EXPIRE'),
+      },
+    );
+    const resetUrl = `${process.env.BASE_URL}/auth/reset-password?token=${token}`;
+    await this.mailService.sendResetPassword(email, resetUrl);
+  }
 
-  async resetPasssword() {}
+  async resetPassword(token: string, newPassword: string) {
+    let payload: any;
+    try {
+      payload = await this.jwtService.verifyAsync(token, {
+        secret: this.configService.get('RESET_PASSWORD_SECRET'),
+      });
+    } catch {
+      throw new BadRequestException('Token expired or invalid');
+    }
+
+    const user = await this.userModel.findByPk(payload.id);
+    if (!user) throw new NotFoundException('User not found');
+
+    const hashed = await this.hashPass(newPassword);
+    user.setDataValue('password', hashed);
+    await user.save();
+  }
 
   private setTokenCookies(
     res: Response,

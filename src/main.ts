@@ -9,6 +9,7 @@ import { json, urlencoded } from 'express';
 import methodOverride from 'method-override';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { AdminService } from './admin/admin.service';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -61,6 +62,8 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   app.useStaticAssets(join(__dirname, '..', 'src', 'public'));
+
+  app.useGlobalInterceptors(new LoggingInterceptor())
   app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(port, () => {

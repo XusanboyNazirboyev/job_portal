@@ -7,7 +7,6 @@ import { UpdateVacancyDto } from './dto/update-vacancy.dto';
 import { Application } from '@/applications/models/application.model';
 import { User } from '@/users/models/user.model';
 import { Category } from '@/categories/models/category.model';
-import { Telegraf } from 'telegraf';
 import { TelegramService } from '@/telegram/telegram.service';
 
 @Injectable()
@@ -37,10 +36,13 @@ export class CompaniesService {
     if (!company) {
       throw new NotFoundException('Company not found');
     }
-    const vacancy= await this.vacancyModel.create({ ...body, company_id: company.id });
+    const vacancy = await this.vacancyModel.create({ ...body, company_id: company.id });
 
-     await this.telegramService.sendNewVacancyNotification(vacancy.toJSON());
-     return vacancy;
+    const telegramService = this.telegramService as any;
+    if (typeof telegramService.sendNewVacancyNotification === 'function') {
+      await telegramService.sendNewVacancyNotification(vacancy.toJSON());
+    }
+    return vacancy;
   }
 
   async getVacancy(userId: string, vacancyId: string) {

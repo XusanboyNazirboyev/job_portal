@@ -54,4 +54,15 @@ export class MailService {
       html,
     });
   }
+  async sendResetPassword(email: string, resetUrl: string) {
+    await this.transport.sendMail({
+      to: email,
+      subject: 'Parolni tiklash',
+      html: `
+      <h2>Parolni tiklash</h2>
+      <p>Quyidagi havolaga bosing (5 daqiqa amal qiladi):</p>
+      <a href="${resetUrl}">Parolni tiklash</a>
+    `,
+    });
+  }
 }

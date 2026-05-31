@@ -1,6 +1,9 @@
-import { IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt } from 'class-validator';
+
 
 export class CreateApplicationDto {
-  @IsString()
+  @IsInt()
+  @Type(() => Number)
   vacancy_id: number;
 }

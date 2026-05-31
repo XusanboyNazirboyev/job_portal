@@ -22,6 +22,7 @@ import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dtos/create-application.dto';
 import type { Response } from 'express';
 import { UpdateStatusDto } from './dtos/update-status.dto';
+import { ResumeValidationPipe } from '@/common/pipes/resume-validation.pipe';
 
 @Controller('applications')
 export class ApplicationsController {
@@ -48,8 +49,10 @@ export class ApplicationsController {
     @Res() res: Response,
   ) {
     try {
+      console.log('file:', file);
+      console.log('body:', body);
       await this.service.create(body, req.user.id, file?.filename);
-      return res.redirect('applications/my');
+      return res.redirect('/applications/my');
     } catch (error: any) {
       return res.redirect(
         `/vacancies/${body.vacancy_id}?error=${error.message}`,

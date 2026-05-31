@@ -31,7 +31,7 @@ import { MailModule } from './mail/mail.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      logging: console.log,
+      logging: process.env.NODE_ENV !== 'production' ? console.log : false,
       synchronize: true,
       sync: {
         alter: true,
@@ -50,7 +50,6 @@ import { MailModule } from './mail/mail.module';
     TelegramModule,
     MailModule,
   ],
-  providers:[JwtService,ConfigService, MailService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
