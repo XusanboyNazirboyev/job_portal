@@ -5,7 +5,9 @@ import { User } from '@/users/models/user.model';
 import { Vacancy } from '@/vacancies/models/vacancy.model';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
+import { Op } from 'sequelize';
+
 @Injectable()
 export class AdminService {
   constructor(
@@ -34,14 +36,16 @@ export class AdminService {
     }
   }
   async getUsers() {
-    return this.userModel.findAll({ attributes: { exclude: ['password'] } });
+    return this.userModel.findAll({
+      attributes: { exclude: ['password'] },
+      where: { role: { [Op.ne]: 'admin' } },
+    });
   }
 
   async deleteUser(id: string) {
     const existing = await this.userModel.findByPk(id);
     if (!existing) throw new NotFoundException('User not found');
 
-    // user ning company si bo'lsa avval uni o'chir
     const company = await this.companyModel.findOne({
       where: { owner_id: id },
     });

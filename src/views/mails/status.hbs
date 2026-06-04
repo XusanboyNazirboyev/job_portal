@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html>
-<body>
-  <h2>Salom, {{name}}!</h2>
-  <p>Arizangiz holati o'zgardi:</p>
-  <p><strong>Vacancy:</strong> {{vacancyTitle}}</p>
-  <p><strong>Status:</strong> {{status}}</p>
+<body style="margin:0;padding:0;background:#f4f2ee;font-family:-apple-system,Segoe UI,Inter,sans-serif;color:#0b1a2b">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(8,30,56,.06)">
+        <tr><td style="background:linear-gradient(135deg,#0a66c2,#07457f);padding:24px 32px;color:#fff;font-weight:800;font-size:18px">JobHive</td></tr>
+        <tr><td style="padding:32px">
+          <h1 style="margin:0 0 12px;font-size:22px">Salom, {{name}}</h1>
+          <p style="margin:0 0 20px;color:#36495e;line-height:1.6">Arizangiz holati yangilandi:</p>
+          <div style="background:#f4f2ee;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+            <div style="font-size:12px;color:#5e6d7e;text-transform:uppercase;letter-spacing:.05em">Vacancy</div>
+            <div style="font-weight:600;margin-top:4px">{{vacancyTitle}}</div>
+            <div style="font-size:12px;color:#5e6d7e;text-transform:uppercase;letter-spacing:.05em;margin-top:14px">Status</div>
+            <div style="margin-top:4px">
+              <span style="display:inline-block;padding:4px 12px;border-radius:9999px;background:#eaf3fb;color:#0a66c2;font-weight:600;font-size:13px">{{status}}</span>
+            </div>
+          </div>
+          <a href="http://localhost:4000/applications/my"
+             style="display:inline-block;background:#0a66c2;color:#fff;text-decoration:none;padding:12px 24px;border-radius:9999px;font-weight:600">
+            Arizalarimni ko'rish →
+          </a>
+        </td></tr>
+        <tr><td style="padding:16px 32px;background:#f4f2ee;color:#5e6d7e;font-size:12px;text-align:center">© JobHive</td></tr>
+      </table>
+    </td></tr>
+  </table>
 </body>
 </html>

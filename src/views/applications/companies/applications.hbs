@@ -1,26 +1,39 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h4>Applications</h4>
-  <a href="/companies/panel" class="btn btn-outline-secondary btn-sm">Back</a>
+<div class="flex items-center justify-between mb-5">
+  <div>
+    <h1 class="text-2xl font-bold text-ink-900">Applications</h1>
+    <p class="text-sm text-ink-500">Review candidates and update their status.</p>
+  </div>
+  <a href="/companies/panel" class="px-4 py-2 rounded-full border border-slate-300 text-ink-700 text-sm font-semibold hover:bg-slate-50">← Back</a>
 </div>
 
-<div class="row">
+<div class="grid md:grid-cols-2 gap-4">
   {{#each applications}}
-  <div class="col-md-6 mb-3">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h5>{{user.full_name}}</h5>
-        <p class="text-muted">{{user.email}}</p>
-        <a href="/{{resume}}" target="_blank" class="btn btn-sm btn-outline-primary mb-2">View Resume</a>
-        <form action="/applications/{{id}}/status" method="POST">
-          <select name="status" class="form-select mb-2">
-            <option value="pending">Pending</option>
-            <option value="accepted">Accepted</option>
-            <option value="rejected">Rejected</option>
-          </select>
-          <button type="submit" class="btn btn-sm btn-primary w-100">Update Status</button>
-        </form>
+  <article class="bg-white rounded-2xl shadow-card p-5">
+    <div class="flex gap-4">
+      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white grid place-items-center font-bold">
+        {{#if user.full_name}}{{user.full_name.[0]}}{{else}}U{{/if}}
+      </div>
+      <div class="flex-1 min-w-0">
+        <h2 class="font-semibold text-ink-900 truncate">{{user.full_name}}</h2>
+        <p class="text-sm text-ink-500 truncate">{{user.email}}</p>
+        <a href="/uploads/resumes/{{resume}}" target="_blank"
+          class="mt-2 inline-flex items-center gap-1 text-sm text-brand-600 hover:underline font-semibold">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          View resume
+        </a>
       </div>
     </div>
-  </div>
+    <form action="/applications/{{id}}/status" method="POST" class="mt-4 flex gap-2">
+      <input type="hidden" name="vacancy_id" value="{{vacancy_id}}"/>
+      <select name="status" class="flex-1 px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+        <option value="pending" {{#if (eq status 'pending')}}selected{{/if}}>● Pending</option>
+        <option value="accepted" {{#if (eq status 'accepted')}}selected{{/if}}>✓ Accepted</option>
+        <option value="rejected" {{#if (eq status 'rejected')}}selected{{/if}}>✕ Rejected</option>
+      </select>
+      <button class="px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold">Update</button>
+    </form>
+  </article>
+  {{else}}
+  <div class="md:col-span-2 bg-white rounded-2xl shadow-card p-10 text-center text-ink-500">No applications yet.</div>
   {{/each}}
 </div>

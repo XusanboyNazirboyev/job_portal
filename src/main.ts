@@ -54,8 +54,10 @@ async function bootstrap() {
       layoutsDir: join(__dirname, '..', 'src', 'views', 'layouts'),
       partialsDir: join(__dirname, '..', 'src', 'views', 'partials'),
       helpers: {
-        eq: (a: any, b: any) => a == b,
-      },
+      or: (a: any, b: any) => a || b,          
+      eq: (a: any, b: any) => a === b,          
+      and: (a: any, b: any) => a && b,
+    },
     }),
   );
   app.setBaseViewsDir(join(__dirname, '..', 'src', 'views'));

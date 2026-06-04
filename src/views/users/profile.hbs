@@ -1,0 +1,56 @@
+<div class="grid lg:grid-cols-[1fr_320px] gap-6">
+  <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+    <div class="h-32 bg-gradient-to-r from-brand-500 to-brand-700"></div>
+    <div class="px-6 pb-6 -mt-12">
+      <div class="w-24 h-24 rounded-full bg-white border-4 border-white shadow-card grid place-items-center text-3xl font-bold text-brand-600 bg-gradient-to-br from-brand-50 to-brand-100">
+        {{#if user.full_name}}{{user.full_name.[0]}}{{else}}U{{/if}}
+      </div>
+      <h1 class="mt-3 text-2xl font-bold text-ink-900">{{user.full_name}}</h1>
+      <p class="text-ink-500 text-sm">{{user.email}} · <span class="chip bg-brand-50 text-brand-600 ml-1">{{user.role}}</span></p>
+
+      <hr class="my-6 border-slate-200"/>
+
+      <h2 class="text-lg font-semibold text-ink-900 mb-4">Edit your profile</h2>
+
+      {{#if error}}<div class="mb-3 px-4 py-2 rounded-lg bg-rose-50 text-rose-700 text-sm">{{error}}</div>{{/if}}
+      {{#if success}}<div class="mb-3 px-4 py-2 rounded-lg bg-emerald-50 text-emerald-700 text-sm">{{success}}</div>{{/if}}
+
+      <form action="/users/me?_method=PATCH" method="POST" class="space-y-4 max-w-lg">
+        <label class="block">
+          <span class="text-sm font-medium text-ink-700">Full name</span>
+          <input type="text" name="full_name" value="{{user.full_name}}" class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"/>
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-ink-700">Email</span>
+          <input type="email" value="{{user.email}}" disabled class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-500"/>
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-ink-700">Role</span>
+          <input type="text" value="{{user.role}}" disabled class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-500"/>
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-ink-700">Telegram ID <span class="text-slate-400">(for notifications)</span></span>
+          <input type="text" name="telegram_id" value="{{user.telegram_id}}" class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"/>
+        </label>
+        <button type="submit" class="px-6 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold">Save changes</button>
+      </form>
+    </div>
+  </div>
+
+  <aside class="space-y-4">
+    <div class="bg-white rounded-2xl shadow-card p-5">
+      <h3 class="font-semibold text-ink-900 mb-2">Profile strength</h3>
+      <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+        <div class="h-full w-2/3 bg-emerald-500"></div>
+      </div>
+      <p class="text-xs text-ink-500 mt-2">Add your Telegram ID to get instant job alerts.</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5">
+      <h3 class="font-semibold text-ink-900 mb-2">Quick links</h3>
+      <ul class="text-sm space-y-1">
+        <li><a href="/vacancies" class="text-brand-600 hover:underline">Browse jobs</a></li>
+        <li><a href="/applications/my" class="text-brand-600 hover:underline">My applications</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>

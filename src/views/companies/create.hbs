@@ -1,50 +1,54 @@
-<div class='row justify-content-center'>
-  <div class='col-md-7'>
-    <div class='card shadow'>
-      <div class='card-body p-4'>
-        <h4 class='mb-4'>Create Vacancy</h4>
+<div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-card p-8">
+  <h1 class="text-2xl font-bold text-ink-900">Post a new vacancy</h1>
+  <p class="text-sm text-ink-500 mt-1">Reach thousands of candidates in seconds.</p>
 
-        {{#if error}}
-          <div class='alert alert-danger'>{{error}}</div>
-        {{/if}}
+  {{#if error}}<div class="mt-5 px-4 py-2 rounded-lg bg-rose-50 text-rose-700 text-sm">{{error}}</div>{{/if}}
 
-        <form action='/companies' method='POST'>
-          <div class='mb-3'>
-            <label class='form-label'>Title</label>
-            <input type='text' name='title' class='form-control' required />
-          </div>
-          <div class='mb-3'>
-            <label class='form-label'>Description</label>
-            <textarea
-              name='description'
-              class='form-control'
-              rows='4'
-              required
-            ></textarea>
-          </div>
-          <div class='mb-3'>
-            <label class='form-label'>Salary</label>
-            <input type='number' name='salary' class='form-control' />
-          </div>
-          <div class='mb-3'>
-            <label class='form-label'>Location</label>
-            <input type='text' name='location' class='form-control' />
-          </div>
-          <div class='mb-3'>
-            <label class='form-label'>Category</label>
-            <select name='category_id' class='form-select' required>
-              {{#each categories}}
-                <option value='{{id}}'>{{name}}</option>
-              {{/each}}
-            </select>
-          </div>
-          <button type='submit' class='btn btn-primary w-100'>Create</button>
-          <a
-            href='/companies/panel'
-            class='btn btn-outline-secondary w-100 mt-2'
-          >Back</a>
-        </form>
-      </div>
+  <form action="/companies" method="POST" class="mt-6 space-y-4">
+    <label class="block">
+      <span class="text-sm font-medium text-ink-700">Job title</span>
+      <input type="text" name="title" required placeholder="e.g. Senior Backend Engineer"
+        class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"/>
+    </label>
+    <label class="block">
+      <span class="text-sm font-medium text-ink-700">Description</span>
+      <textarea name="description" rows="6" required placeholder="Describe the role, responsibilities, requirements..."
+        class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"></textarea>
+    </label>
+    <div class="grid md:grid-cols-2 gap-4">
+      <label class="block">
+        <span class="text-sm font-medium text-ink-700">Salary (USD)</span>
+        <input type="number" name="salary" placeholder="3000"
+          class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"/>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium text-ink-700">Location</span>
+        <input type="text" name="location" placeholder="Tashkent / Remote"
+          class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"/>
+      </label>
     </div>
-  </div>
+
+    <!-- 🔽 YANGI QO'SHILGAN "JOB TYPE" QISMI 🔽 -->
+    <label class="block">
+      <span class="text-sm font-medium text-ink-700">Job type</span>
+      <select name="type" required class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+        <option value="Full-time">Full-time</option>
+        <option value="Part-time">Part-time</option>
+        <option value="Contract">Contract</option>
+        <option value="Remote">Remote</option>
+      </select>
+    </label>
+    <!-- 🔼 SHU YERGACHA 🔼 -->
+
+    <label class="block">
+      <span class="text-sm font-medium text-ink-700">Category</span>
+      <select name="category_id" required class="mt-1 w-full px-4 py-2.5 rounded-lg border border-slate-300 bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+        {{#each categories}}<option value="{{id}}">{{name}}</option>{{/each}}
+      </select>
+    </label>
+    <div class="flex gap-2 pt-2">
+      <button type="submit" class="px-6 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold">Publish vacancy</button>
+      <a href="/companies/panel" class="px-6 py-2.5 rounded-full border border-slate-300 text-ink-700 font-semibold hover:bg-slate-50">Cancel</a>
+    </div>
+  </form>
 </div>

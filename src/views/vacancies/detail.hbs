@@ -1,45 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{vacancy.title}}</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body>
+<div class="grid lg:grid-cols-[1fr_360px] gap-6">
+  <article class="bg-white rounded-2xl shadow-card overflow-hidden">
+    <div class="h-28 bg-gradient-to-r from-brand-500 to-brand-700"></div>
+    <div class="px-6 pb-6 -mt-10">
+      <div class="w-20 h-20 rounded-2xl bg-white border border-slate-200 grid place-items-center text-3xl font-bold text-brand-600 shadow-card">
+        {{#if vacancy.company.name}}{{vacancy.company.name.[0]}}{{else}}J{{/if}}
+      </div>
+      <h1 class="mt-4 text-2xl font-bold text-ink-900">{{vacancy.title}}</h1>
+      <p class="text-ink-700">{{vacancy.company.name}} · <span class="text-ink-500">{{vacancy.location}}</span></p>
 
-  <div class="container mt-4">
-    <div class="card shadow">
-      <div class="card-body p-4">
-        <h3>{{vacancy.title}}</h3>
-        <p class="text-muted">{{vacancy.location}}</p>
-        <p class="fw-bold text-success">${{vacancy.salary}}</p>
-        <hr>
-        <p>{{vacancy.description}}</p>
-        <hr>
-        <p><strong>Company:</strong> {{vacancy.company.name}}</p>
-        <p><strong>Category:</strong> {{vacancy.category.name}}</p>
-        <hr>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <span class="chip bg-emerald-50 text-emerald-700">💰 ${{vacancy.salary}}</span>
+        <span class="chip bg-brand-50 text-brand-600">📂 {{vacancy.category.name}}</span>
+        <span class="chip bg-slate-100 text-ink-700">📍 {{vacancy.location}}</span>
+      </div>
 
-        {{#if error}}
-          <div class="alert alert-danger">{{error}}</div>
-        {{/if}}
+      <div class="mt-6 flex gap-2">
+        <a href="#apply" class="px-5 py-2 rounded-full bg-brand-500 text-white font-semibold hover:bg-brand-600">Apply now</a>
+        <button class="px-5 py-2 rounded-full border border-slate-300 text-ink-700 font-semibold hover:bg-slate-50">Save</button>
+      </div>
 
-        {{#if success}}
-          <div class="alert alert-success">{{success}}</div>
-        {{/if}}
+      <hr class="my-6 border-slate-200"/>
 
-        <form action="/applications" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="vacancy_id" value="{{vacancy.id}}">
-          <div class="mb-3">
-            <label class="form-label">Resume (PDF/DOC)</label>
-            <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx" required>
+      <h2 class="text-lg font-semibold text-ink-900 mb-2">About the job</h2>
+      <p class="text-ink-700 leading-relaxed whitespace-pre-line">{{vacancy.description}}</p>
+
+      <hr class="my-6 border-slate-200"/>
+
+      <div id="apply" class="bg-surface-100 rounded-xl p-5">
+        <h2 class="text-lg font-semibold text-ink-900 mb-3">Submit your application</h2>
+        {{#if error}}<div class="mb-3 px-4 py-2 rounded-lg bg-rose-50 text-rose-700 text-sm">{{error}}</div>{{/if}}
+        {{#if success}}<div class="mb-3 px-4 py-2 rounded-lg bg-emerald-50 text-emerald-700 text-sm">{{success}}</div>{{/if}}
+        <form action="/applications" method="POST" enctype="multipart/form-data" class="space-y-3">
+          <input type="hidden" name="vacancy_id" value="{{vacancy.id}}"/>
+          <label class="block">
+            <span class="text-sm font-medium text-ink-700">Resume (PDF / DOC)</span>
+            <input type="file" name="resume" accept=".pdf,.doc,.docx" required
+              class="mt-1 block w-full text-sm file:mr-3 file:px-4 file:py-2 file:rounded-full file:border-0 file:bg-brand-500 file:text-white file:font-semibold hover:file:bg-brand-600"/>
+          </label>
+          <div class="flex gap-2">
+            <button type="submit" class="px-5 py-2 rounded-full bg-brand-500 text-white font-semibold hover:bg-brand-600">Send application</button>
+            <a href="/vacancies" class="px-5 py-2 rounded-full border border-slate-300 text-ink-700 font-semibold hover:bg-slate-50">Back to jobs</a>
           </div>
-          <button type="submit" class="btn btn-primary">Apply Now</button>
-          <a href="/vacancies" class="btn btn-outline-secondary ms-2">Back</a>
         </form>
-
       </div>
     </div>
-  </div>
-</body>
-</html>
+  </article>
+
+  <aside class="space-y-4">
+    <div class="bg-white rounded-2xl shadow-card p-5">
+      <h3 class="font-semibold text-ink-900 mb-2">About {{vacancy.company.name}}</h3>
+      <p class="text-sm text-ink-700">A growing team hiring across multiple roles. Check the company profile for more open positions.</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5">
+      <h3 class="font-semibold text-ink-900 mb-2">Tips</h3>
+      <ul class="text-sm text-ink-700 space-y-1 list-disc pl-4">
+        <li>Highlight relevant projects.</li>
+        <li>Keep your resume under 2 pages.</li>
+        <li>Use action verbs and metrics.</li>
+      </ul>
+    </div>
+  </aside>
+</div>

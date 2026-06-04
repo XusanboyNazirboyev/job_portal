@@ -39,22 +39,28 @@ export class HttpExceptionFilter implements ExceptionFilter {
     return res.redirect(`${baseReferer}?error=${encodeURIComponent(message)}`);
   }
 
-  private extractMessage(exceptionResponse: any): string {
-    if (typeof exceptionResponse === 'string') {
-      return exceptionResponse;
+  // Around line 45-50 in your filter
+  private extractMessage(exception: unknown): string {
+    if (exception instanceof HttpException) {
+      const exceptionResponse = exception.getResponse();
+
+      if (typeof exceptionResponse === 'string') {
+        return exceptionResponse;
+      }
+
+      if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
+        const { message } = exceptionResponse as {
+          message?: string | string[];
+        };
+        if (Array.isArray(message)) return message.join(', ');
+        return message ?? exception.message;
+      }
     }
 
-    const { message } = exceptionResponse;
-
-    if (Array.isArray(message)) {
-
-      return message.join(', ');
+    if (exception instanceof Error) {
+      return exception.message;
     }
 
-    if (typeof message === 'string') {
-      return message;
-    }
-
-    return 'An unexpected error occurred';
+    return 'Internal server error';
   }
 }

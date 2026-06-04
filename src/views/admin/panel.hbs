@@ -1,21 +1,31 @@
-<h4 class="mb-4">Admin Panel</h4>
-<div class="row">
-  <div class="col-md-4 mb-3">
-    <div class="card shadow-sm text-center p-3">
-      <h5>Users</h5>
-      <a href="/admin/users" class="btn btn-primary mt-2">Manage</a>
+<div class="mb-6">
+  <h1 class="text-2xl font-bold text-ink-900">Admin dashboard</h1>
+  <p class="text-sm text-ink-500">Manage the platform, monitor activity, moderate content.</p>
+</div>
+
+<div class="grid md:grid-cols-3 gap-4">
+  <a href="/admin/users" class="group bg-white rounded-2xl shadow-card p-6 hover:shadow-lg transition border border-transparent hover:border-brand-500">
+    <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 grid place-items-center mb-4">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M3 21a6 6 0 0 1 12 0M16 3a4 4 0 0 1 0 8M21 21a6 6 0 0 0-3-5"/></svg>
     </div>
-  </div>
-  <div class="col-md-4 mb-3">
-    <div class="card shadow-sm text-center p-3">
-      <h5>Companies</h5>
-      <a href="/admin/companies" class="btn btn-primary mt-2">Manage</a>
+    <h2 class="font-semibold text-ink-900">Users</h2>
+    <p class="text-sm text-ink-500 mt-1">Candidates, employers, admins.</p>
+    <span class="mt-4 inline-flex items-center text-sm font-semibold text-brand-600 group-hover:gap-2 gap-1 transition-all">Manage →</span>
+  </a>
+  <a href="/admin/companies" class="group bg-white rounded-2xl shadow-card p-6 hover:shadow-lg transition border border-transparent hover:border-brand-500">
+    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 grid place-items-center mb-4">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1M9 13h1m4 0h1M9 17h1m4 0h1"/></svg>
     </div>
-  </div>
-  <div class="col-md-4 mb-3">
-    <div class="card shadow-sm text-center p-3">
-      <h5>Categories</h5>
-      <a href="/admin/categories" class="btn btn-primary mt-2">Manage</a>
+    <h2 class="font-semibold text-ink-900">Companies</h2>
+    <p class="text-sm text-ink-500 mt-1">Verify and moderate employers.</p>
+    <span class="mt-4 inline-flex items-center text-sm font-semibold text-brand-600">Manage →</span>
+  </a>
+  <a href="/admin/categories" class="group bg-white rounded-2xl shadow-card p-6 hover:shadow-lg transition border border-transparent hover:border-brand-500">
+    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 grid place-items-center mb-4">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
     </div>
-  </div>
+    <h2 class="font-semibold text-ink-900">Categories</h2>
+    <p class="text-sm text-ink-500 mt-1">Organize the taxonomy of jobs.</p>
+    <span class="mt-4 inline-flex items-center text-sm font-semibold text-brand-600">Manage →</span>
+  </a>
 </div>

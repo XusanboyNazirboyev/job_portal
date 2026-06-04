@@ -49,8 +49,6 @@ export class ApplicationsController {
     @Res() res: Response,
   ) {
     try {
-      console.log('file:', file);
-      console.log('body:', body);
       await this.service.create(body, req.user.id, file?.filename);
       return res.redirect('/applications/my');
     } catch (error: any) {

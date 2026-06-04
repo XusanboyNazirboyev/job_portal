@@ -1,25 +1,44 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h4>{{company.name}} — Panel</h4>
-  <a href="/companies/create" class="btn btn-primary">+ New Vacancy</a>
-</div>
-
-<div class="row">
-  {{#each company.Vacancies}}
-  <div class="col-md-6 mb-3">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h5>{{title}}</h5>
-        <p class="text-muted">{{location}}</p>
-        <p class="fw-bold">${{salary}}</p>
-        <div class="d-flex gap-2">
-          <a href="/companies/{{id}}/applications" class="btn btn-sm btn-outline-primary">Applications</a>
-          <a href="/companies/{{id}}/edit" class="btn btn-sm btn-outline-warning">Edit</a>
-          <form action="/companies/{{id}}?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-          </form>
-        </div>
+<div class="bg-white rounded-2xl shadow-card overflow-hidden mb-6">
+  <div class="h-24 bg-gradient-to-r from-brand-500 to-brand-700"></div>
+  <div class="px-6 pb-5 -mt-10 flex items-end justify-between flex-wrap gap-4">
+    <div class="flex items-end gap-4">
+      <div class="w-20 h-20 rounded-2xl bg-white border-4 border-white shadow-card grid place-items-center text-3xl font-bold text-brand-600">
+        {{#if company.name}}{{company.name.[0]}}{{else}}C{{/if}}
+      </div>
+      <div class="pb-1">
+        <h1 class="text-2xl font-bold text-ink-900">{{company.name}}</h1>
+        <p class="text-sm text-ink-500">Recruiter dashboard</p>
       </div>
     </div>
+    <a href="/companies/create" class="px-5 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold">+ Post a job</a>
+  </div>
+</div>
+
+<h2 class="text-lg font-semibold text-ink-900 mb-3">Open vacancies</h2>
+<div class="grid md:grid-cols-2 gap-4">
+  {{#each company.Vacancies}}
+  <article class="bg-white rounded-2xl shadow-card p-5">
+    <div class="flex justify-between items-start gap-3">
+      <div>
+        <h3 class="font-semibold text-ink-900">{{title}}</h3>
+        <p class="text-sm text-ink-500">📍 {{location}}</p>
+      </div>
+      <span class="chip bg-emerald-50 text-emerald-700">${{salary}}</span>
+    </div>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <a href="/companies/{{id}}/applications" class="px-3 py-1.5 rounded-full bg-brand-50 text-brand-600 text-xs font-semibold hover:bg-brand-100">Applications</a>
+      <a href="/companies/{{id}}/edit" class="px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold hover:bg-amber-100">Edit</a>
+      <form action="/companies/{{id}}?_method=DELETE" method="POST" class="inline">
+        <button class="px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 text-xs font-semibold hover:bg-rose-100">Delete</button>
+      </form>
+    </div>
+  </article>
+  {{else}}
+  <div class="md:col-span-2 bg-white rounded-2xl shadow-card p-10 text-center">
+    <div class="text-4xl mb-2">📭</div>
+    <h2 class="font-semibold text-ink-900">No vacancies posted</h2>
+    <p class="text-sm text-ink-500 mt-1 mb-4">Post your first role to start receiving applications.</p>
+    <a href="/companies/create" class="px-4 py-2 rounded-full bg-brand-500 text-white text-sm font-semibold">+ Post a job</a>
   </div>
   {{/each}}
 </div>

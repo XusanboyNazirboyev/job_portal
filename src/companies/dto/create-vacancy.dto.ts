@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateVacancyDto {
   @IsString()
@@ -16,6 +16,12 @@ export class CreateVacancyDto {
   @IsString()
   @IsOptional()
   location: string;
+
+  @IsEnum(['Full-time', 'Part-time', 'Contract', 'Remote'], {
+    message:
+      "Type faqat 'Full-time', 'Part-time', 'Contract' yoki 'Remote' bo'lishi mumkin",
+  })
+  type: string;
 
   @IsInt()
   @Type(() => Number)

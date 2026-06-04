@@ -1,34 +1,27 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h4>Categories</h4>
-  <a href="/admin/panel" class="btn btn-outline-secondary btn-sm">Back</a>
+<div class="flex items-center justify-between mb-5">
+  <div>
+    <h1 class="text-2xl font-bold text-ink-900">Job categories</h1>
+    <p class="text-sm text-ink-500">Keep your taxonomy clean and discoverable.</p>
+  </div>
+  <a href="/admin/panel" class="px-4 py-2 rounded-full border border-slate-300 text-ink-700 text-sm font-semibold hover:bg-slate-50">← Back</a>
 </div>
 
-<form action="/admin/categories" method="POST" class="mb-4">
-  <div class="input-group">
-    <input type="text" name="name" class="form-control" placeholder="Category name" required>
-    <button type="submit" class="btn btn-primary">Add</button>
-  </div>
+<form action="/admin/categories" method="POST" class="bg-white rounded-2xl shadow-card p-4 mb-5 flex gap-2">
+  <input type="text" name="name" placeholder="e.g. Frontend Engineering" required
+    class="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"/>
+  <button class="px-5 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold">+ Add</button>
 </form>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each categories}}
-    <tr>
-      <td>{{id}}</td>
-      <td>{{name}}</td>
-      <td>
-        <form action="/admin/categories/{{id}}?_method=DELETE" method="POST">
-          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-        </form>
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+<div class="bg-white rounded-2xl shadow-card divide-y divide-slate-100">
+  {{#each categories}}
+  <div class="flex items-center justify-between px-5 py-3">
+    <div class="flex items-center gap-3">
+      <span class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 grid place-items-center text-xs font-bold">#{{id}}</span>
+      <span class="font-medium text-ink-900">{{name}}</span>
+    </div>
+    <form action="/admin/categories/{{id}}?_method=DELETE" method="POST">
+      <button class="px-3 py-1.5 rounded-full text-rose-600 text-xs font-semibold hover:bg-rose-50">Delete</button>
+    </form>
+  </div>
+  {{/each}}
+</div>

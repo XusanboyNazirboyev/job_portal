@@ -14,10 +14,9 @@ import { Application } from './applications/models/application.model';
 import { Category } from './categories/models/category.model';
 import { AdminModule } from './admin/admin.module';
 import { RoleMiddleware } from './common/middleware/role.middleware';
-import { JwtService } from '@nestjs/jwt';
 import { TelegramModule } from './telegram/telegram.module';
-import { MailService } from './mail/mail.service';
 import { MailModule } from './mail/mail.module';
+import { HomeModule } from './home/home.module';
 
 @Module({
   imports: [
@@ -49,6 +48,7 @@ import { MailModule } from './mail/mail.module';
     AdminModule,
     TelegramModule,
     MailModule,
+    HomeModule,
   ],
 })
 export class AppModule implements NestModule {

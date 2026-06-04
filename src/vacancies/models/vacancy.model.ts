@@ -23,6 +23,12 @@ export class Vacancy extends Model {
   @Column({ type: DataType.STRING, allowNull: true })
   location: string;
 
+  @Column({
+    type: DataType.ENUM('Full-time', 'Part-time', 'Contract', 'Remote'),
+    allowNull: true,
+  })
+  type: string;
+
   @ForeignKey(() => Company)
   @Column({ type: DataType.INTEGER })
   company_id: number;

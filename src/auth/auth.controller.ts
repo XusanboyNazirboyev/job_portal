@@ -40,7 +40,6 @@ export class AuthController {
   async login(@Body() dto: LoginDto, @Res() res: Response) {
     try {
       const role = await this.service.login(dto, res);
-      console.log('role:', role);
       if (role === 'company') return res.redirect('/companies/panel');
       if (role === 'admin') return res.redirect('/admin/panel');
       return res.redirect('/vacancies');
